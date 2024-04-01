@@ -1,4 +1,3 @@
-
 #include <iostream>
 using namespace std;
 
@@ -117,15 +116,28 @@ void exibirElementos()
 
 void inserirElemento()
 {
-	// aloca memoria dinamicamente para o novo elemento
+	int valor;
+	cout << "Digite o elemento: ";
+	cin >> valor;
+
+	NO* aux = primeiro;
+	while (aux != NULL) {
+		if (aux->valor == valor) {
+			cout << "Valor já existe na lista";
+			return;
+		}
+		aux = aux->prox;
+	}
+
+
 	NO* novo = (NO*)malloc(sizeof(NO));
 	if (novo == NULL)
 	{
+		cout << "Erro de alocação de memória.\n";
 		return;
 	}
 
-	cout << "Digite o elemento: ";
-	cin >> novo->valor;
+	novo->valor = valor;
 	novo->prox = NULL;
 
 	if (primeiro == NULL)
@@ -134,8 +146,8 @@ void inserirElemento()
 	}
 	else
 	{
-		// procura o final da lista
-		NO* aux = primeiro;
+
+		aux = primeiro;
 		while (aux->prox != NULL) {
 			aux = aux->prox;
 		}
@@ -145,12 +157,50 @@ void inserirElemento()
 
 void excluirElemento()
 {
-	
+	int numero;
+	cout << "Digite um numero: ";
+	cin >> numero;
+
+	NO* encontrado = posicaoElemento(numero);
+	if (encontrado != NULL) {
+
+		NO* aux = primeiro;
+		NO* anterior = NULL;
+		while (aux != NULL) {
+			if (aux->valor == numero) {
+
+				if (anterior == NULL) {
+					primeiro = aux->prox;
+				}
+				else {
+					anterior->prox = aux->prox;
+				}
+				free(aux);
+				cout << "Elemento excluido.\n";
+				return;
+			}
+			anterior = aux;
+			aux = aux->prox;
+		}
+	}
+	else {
+		cout << "ELEMENTO NAO ENCONTRADO\n";
+	}
 }
 
 void buscarElemento()
 {
-	
+	int numero;
+	cout << "Digite um numero: ";
+	cin >> numero;
+
+	NO* encontrado = posicaoElemento(numero);
+	if (encontrado != NULL) {
+		cout << "ENCONTRADO\n";
+	}
+	else {
+		cout << "ELEMENTO NAO ENCONTRADO\n";
+	}
 }
 
 
